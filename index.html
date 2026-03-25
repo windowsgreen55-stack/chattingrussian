@@ -3,139 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>срфеештпеуктшьфдщкы</title>
+<title>срфеештпеуктшьфдщкыт</title>
 <link rel="icon" href="logo.ico?v=6">
 
 <style>
-body {
-  margin: 0;
-  display: flex;
-  height: 100vh;
-  background: #0f0f0f;
-  color: #ddd;
-  font-family: 'Retro', Arial, sans-serif;
-}
+body { margin:0; display:flex; height:100vh; background:#0f0f0f; color:#ddd; font-family:'Retro', Arial, sans-serif; }
+@font-face { font-family:'Retro'; src:url('retro.ttf') format('truetype'); font-display:swap; }
 
-@font-face {
-  font-family: 'Retro';
-  src: url('retro.ttf') format('truetype');
-  font-display: swap;
-}
+#sidebar { width:220px; background:#1a1a1a; padding:10px; border-right:1px solid #300; }
+#sidebar h2 { font-size:14px; color:#ff4444; margin-bottom:10px; }
+.user { padding:5px; font-size:13px; color:#bbb; }
 
-/* SIDEBAR */
-#sidebar {
-  width: 220px;
-  background: #1a1a1a;
-  padding: 10px;
-  border-right: 1px solid #300;
-}
-#sidebar h2 {
-  font-size: 14px;
-  color: #ff4444;
-  margin-bottom: 10px;
-}
-.user {
-  padding: 5px;
-  font-size: 13px;
-  color: #bbb;
-}
+#chat { flex:1; display:flex; flex-direction:column; }
+#messages { flex:1; overflow-y:auto; padding:15px; }
+.msg { margin-bottom:12px; }
+.name { font-weight:bold; color:#ff5555; }
+.time { font-size:11px; color:#666; margin-left:5px; }
+#input { border:none; outline:none; padding:15px; background:#1a1a1a; color:#fff; border-top:1px solid #300; font-family:'Retro', Arial, sans-serif; font-size:15px; }
 
-/* CHAT */
-#chat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-#messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 15px;
-}
-.msg {
-  margin-bottom: 12px;
-}
-.name {
-  font-weight: bold;
-  color: #ff5555;
-}
-.time {
-  font-size: 11px;
-  color: #666;
-  margin-left: 5px;
-}
-.text {
-  margin-top: 2px;
-}
-#input {
-  border: none;
-  outline: none;
-  padding: 15px;
-  background: #1a1a1a;
-  color: #fff;
-  border-top: 1px solid #300;
-  font-family: 'Retro', Arial, sans-serif;
-  font-size: 15px;
-}
+a { color:#4aa3ff; }
+.emoji { height:1.1em; vertical-align:middle; }
 
-a { color: #4aa3ff; }
-.emoji {
-  height: 1.1em;
-  vertical-align: middle;
-}
-
-/* MODAL */
 #loginModal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(15,15,15,0.98);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(15,15,15,0.98); display:flex; align-items:center; justify-content:center; z-index:9999;
 }
 .modal-content {
-  background: #1a1a1a;
-  padding: 30px 25px;
-  border: 3px solid #ff4444;
-  border-radius: 8px;
-  text-align: center;
-  max-width: 440px;
-  width: 92%;
-  box-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+  background:#1a1a1a; padding:30px 25px; border:3px solid #ff4444; border-radius:8px;
+  text-align:center; max-width:460px; width:92%; box-shadow:0 0 30px rgba(255,68,68,0.6);
 }
-.modal-content h2 { color: #ff4444; margin: 0 0 10px 0; }
-.modal-content p { color: #bbb; margin: 8px 0; }
+.modal-content h2 { color:#ff4444; margin:0 0 15px 0; }
+.modal-content p { color:#bbb; margin:10px 0; }
 .modal-content input {
-  width: 100%;
-  padding: 12px;
-  margin: 12px 0;
-  background: #0f0f0f;
-  border: 1px solid #500;
-  color: #fff;
-  font-size: 15px;
+  width:100%; padding:12px; margin:10px 0; background:#0f0f0f; border:1px solid #500; color:#fff; font-size:15px;
 }
 .modal-content button {
-  background: #ff4444;
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
-  margin: 8px 4px;
-  cursor: pointer;
-  font-size: 14px;
+  background:#ff4444; color:#fff; border:none; padding:12px 24px; margin:8px 4px; cursor:pointer; font-size:14px;
 }
-.modal-content button:hover { background: #ff6666; }
-.modal-content button:disabled { background: #555; cursor: not-allowed; }
-#tokenDisplay {
-  margin-top: 15px;
-  padding: 12px;
-  background: #0f0f0f;
-  border: 1px dashed #ff4444;
-  word-break: break-all;
-  font-size: 13px;
-  color: #0f0;
-  text-align: left;
-}
+.modal-content button:hover { background:#ff6666; }
+.modal-content button:disabled { background:#555; cursor:not-allowed; }
+#tokenDisplay { margin:15px 0; padding:12px; background:#0f0f0f; border:1px dashed #ff4444; word-break:break-all; font-size:13px; color:#0f0; text-align:left; }
 </style>
 </head>
 <body>
@@ -150,25 +57,23 @@ a { color: #4aa3ff; }
   <input id="input" placeholder="Напишите сообщение...">
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ЛОГИНА -->
+<!-- МОДАЛЬНОЕ ОКНО -->
 <div id="loginModal">
   <div class="modal-content">
-    <h2>🔑 ВХОД ПО ТОКЕНУ</h2>
-    <p><strong>Система защищена токеном Base64</strong><br>Токен генерируется после прохождения reCAPTCHA</p>
+    <h2>🔑 СИСТЕМА ТОКЕНОВ</h2>
+    <p><strong>Сначала создайте токен</strong></p>
 
-    <input type="text" id="tokenInput" placeholder="Вставьте ваш токен Base64">
-    <button onclick="loginWithToken()">Войти по токену</button>
-
-    <hr style="border:1px solid #400; margin:20px 0;">
-
-    <h3>🛡️ Создать новый токен</h3>
-    <p>Пройдите reCAPTCHA для генерации уникального токена:</p>
+    <button onclick="generateNewToken()" id="generateBtn" style="margin:10px 0;">1. Создать новый токен (reCAPTCHA)</button>
+    
     <div id="recaptcha"></div>
-    <button onclick="generateNewToken()" id="generateBtn" disabled>Сгенерировать токен (Base64)</button>
 
     <div id="tokenDisplay"></div>
 
-    <button onclick="hideLoginModal()" style="background:#444;">Закрыть</button>
+    <input type="text" id="tokenInput" placeholder="Токен будет вставлен автоматически" readonly>
+    
+    <button onclick="loginWithToken()" id="loginBtn" disabled style="margin-top:10px;">2. Войти в чат</button>
+
+    <button onclick="hideLoginModal()" style="background:#444; margin-top:15px;">Закрыть</button>
   </div>
 </div>
 
@@ -186,7 +91,6 @@ const firebaseConfig = {
   messagingSenderId: "621070813364",
   appId: "1:621070813364:web:671b70e0c312c89b0b2fe1"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -194,6 +98,9 @@ const messagesDiv = document.getElementById("messages");
 const input = document.getElementById("input");
 const usersDiv = document.getElementById("users");
 const loginModal = document.getElementById("loginModal");
+const tokenInput = document.getElementById("tokenInput");
+const loginBtn = document.getElementById("loginBtn");
+const tokenDisplay = document.getElementById("tokenDisplay");
 
 let username = null;
 let userToken = null;
@@ -209,7 +116,6 @@ function escapeHTML(str) {
 function parse(text) {
   let safe = escapeHTML(text);
   safe = safe.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank">${url}</a>`);
-  
   const emojiRegex = /\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu;
   safe = safe.replace(emojiRegex, emoji => {
     const code = Array.from(emoji).map(c => c.codePointAt(0).toString(16)).join("-");
@@ -225,10 +131,7 @@ function getTime() {
 
 // ================== reCAPTCHA ==================
 function renderRecaptcha() {
-  if (typeof grecaptcha === "undefined") {
-    setTimeout(renderRecaptcha, 400);
-    return;
-  }
+  if (typeof grecaptcha === "undefined") { setTimeout(renderRecaptcha, 400); return; }
   recaptchaWidgetId = grecaptcha.render("recaptcha", {
     sitekey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
     theme: "dark",
@@ -236,7 +139,7 @@ function renderRecaptcha() {
   });
 }
 
-// ================== СОЗДАТЬ НОВЫЙ ТОКЕН ==================
+// ================== ГЕНЕРАЦИЯ ТОКЕНА ==================
 function generateNewToken() {
   const response = grecaptcha.getResponse(recaptchaWidgetId);
   if (!response) {
@@ -244,76 +147,54 @@ function generateNewToken() {
     return;
   }
 
-  let displayName = prompt("Введите имя пользователя:", "гость" + Math.floor(Math.random() * 9999));
+  let displayName = prompt("Введите имя пользователя (никнейм):", "гость" + Math.floor(Math.random()*9999));
   if (!displayName || displayName.trim() === "") return;
-
   displayName = displayName.trim().substring(0, 25);
 
+  // Gerar token
   const randomBytes = new Uint8Array(32);
   crypto.getRandomValues(randomBytes);
   const randomStr = btoa(String.fromCharCode(...randomBytes));
 
-  const tokenData = displayName + "|||" + randomStr;
-  const token = btoa(tokenData);
+  const token = btoa(displayName + "|||" + randomStr);
 
+  // Salvar e mostrar
   localStorage.setItem("ct_token", token);
   localStorage.setItem("ct_user", displayName);
 
-  username = displayName;
-  userToken = token;
-
-  document.getElementById("tokenDisplay").innerHTML = `
-    ✅ <strong>Токен успешно создан!</strong><br>
-    <span style="color:#0f0; word-break:break-all;">${token}</span><br><br>
-    <small>Скопируйте токен и сохраните его для входа с других устройств.</small>
-  `;
+  tokenDisplay.innerHTML = `✅ <strong>Токен создан!</strong><br><span style="color:#0f0;">${token}</span>`;
+  tokenInput.value = token;
+  loginBtn.disabled = false;
 
   grecaptcha.reset(recaptchaWidgetId);
   document.getElementById("generateBtn").disabled = true;
 
-  setTimeout(() => {
-    if (confirm("Токен создан! Войти в чат сейчас?")) {
-      hideLoginModal();
-      initializeChat();
-    }
-  }, 800);
+  alert("Токен успешно создан и вставлен! Теперь нажмите «Войти в чат»");
 }
 
-// ================== ВХОД ПО ТОКЕНУ ==================
+// ================== ВХОД ==================
 function loginWithToken() {
-  const inputToken = document.getElementById("tokenInput").value.trim();
-  if (!inputToken) {
-    alert("❌ Вставьте токен!");
+  userToken = tokenInput.value.trim();
+  username = localStorage.getItem("ct_user");
+
+  if (!userToken || !username) {
+    alert("❌ Ошибка! Сначала создайте токен.");
     return;
   }
 
-  try {
-    const decoded = atob(inputToken);
-    if (decoded.includes("|||")) {
-      username = decoded.split("|||")[0];
-      userToken = inputToken;
-
-      localStorage.setItem("ct_token", userToken);
-      localStorage.setItem("ct_user", username);
-
-      hideLoginModal();
-      initializeChat();
-    } else {
-      alert("❌ Неверный формат токена!");
-    }
-  } catch (e) {
-    alert("❌ Токен недействителен (не Base64)");
-  }
+  hideLoginModal();
+  initializeChat();
 }
 
 function hideLoginModal() {
   loginModal.style.display = "none";
 }
 
-// ================== ЗАПУСК ЧАТА ==================
+// ================== ЧАТ ==================
 function initializeChat() {
   if (!username) return;
 
+  // Пользователи онлайн
   const userRef = db.ref("chattingterminalors/users").push();
   userRef.set({ name: username });
   userRef.onDisconnect().remove();
@@ -328,6 +209,7 @@ function initializeChat() {
     });
   });
 
+  // Сообщения
   db.ref("chattingterminalors/messages").limitToLast(100).on("child_added", snap => {
     const m = snap.val();
     const div = document.createElement("div");
@@ -341,8 +223,9 @@ function initializeChat() {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 
-  input.addEventListener("keydown", function(e) {
-    if (e.key === "Enter" && input.value.trim() !== "") {
+  // Отправка
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter" && input.value.trim()) {
       db.ref("chattingterminalors/messages").push({
         name: username,
         text: input.value,
@@ -353,12 +236,14 @@ function initializeChat() {
   });
 }
 
-// ================== СТАРТ ==================
+// ================== ЗАПУСК ==================
 window.onload = function() {
-  userToken = localStorage.getItem("ct_token");
-  username = localStorage.getItem("ct_user");
+  const savedToken = localStorage.getItem("ct_token");
+  const savedUser = localStorage.getItem("ct_user");
 
-  if (userToken && username) {
+  if (savedToken && savedUser) {
+    username = savedUser;
+    userToken = savedToken;
     hideLoginModal();
     initializeChat();
   } else {
