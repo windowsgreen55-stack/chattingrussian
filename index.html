@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChattingTerminalors</title>
+<title>срфеештпеуктшьфдщкы</title>
 <link rel="icon" href="logo.ico?v=6">
 
 <style>
@@ -16,7 +16,6 @@ body {
   font-family: 'Retro', Arial, sans-serif;
 }
 
-/* RETRO FONT */
 @font-face {
   font-family: 'Retro';
   src: url('retro.ttf') format('truetype');
@@ -41,14 +40,12 @@ body {
   color: #bbb;
 }
 
-/* CHAT AREA */
+/* CHAT */
 #chat {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-
-/* MESSAGES */
 #messages {
   flex: 1;
   overflow-y: auto;
@@ -69,8 +66,6 @@ body {
 .text {
   margin-top: 2px;
 }
-
-/* INPUT */
 #input {
   border: none;
   outline: none;
@@ -82,18 +77,13 @@ body {
   font-size: 15px;
 }
 
-/* LINKS */
-a {
-  color: #4aa3ff;
-}
-
-/* EMOJIS */
+a { color: #4aa3ff; }
 .emoji {
   height: 1.1em;
   vertical-align: middle;
 }
 
-/* LOGIN MODAL */
+/* MODAL */
 #loginModal {
   position: fixed;
   top: 0; left: 0;
@@ -113,16 +103,9 @@ a {
   max-width: 440px;
   width: 92%;
   box-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
-  font-family: 'Retro', Arial, sans-serif;
 }
-.modal-content h2 {
-  color: #ff4444;
-  margin: 0 0 10px 0;
-}
-.modal-content p {
-  color: #bbb;
-  margin: 8px 0;
-}
+.modal-content h2 { color: #ff4444; margin: 0 0 10px 0; }
+.modal-content p { color: #bbb; margin: 8px 0; }
 .modal-content input {
   width: 100%;
   padding: 12px;
@@ -131,7 +114,6 @@ a {
   border: 1px solid #500;
   color: #fff;
   font-size: 15px;
-  font-family: 'Retro', Arial, sans-serif;
 }
 .modal-content button {
   background: #ff4444;
@@ -141,15 +123,9 @@ a {
   margin: 8px 4px;
   cursor: pointer;
   font-size: 14px;
-  font-family: 'Retro', Arial, sans-serif;
 }
-.modal-content button:hover {
-  background: #ff6666;
-}
-.modal-content button:disabled {
-  background: #555;
-  cursor: not-allowed;
-}
+.modal-content button:hover { background: #ff6666; }
+.modal-content button:disabled { background: #555; cursor: not-allowed; }
 #tokenDisplay {
   margin-top: 15px;
   padding: 12px;
@@ -210,6 +186,7 @@ const firebaseConfig = {
   messagingSenderId: "621070813364",
   appId: "1:621070813364:web:671b70e0c312c89b0b2fe1"
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -231,9 +208,8 @@ function escapeHTML(str) {
 
 function parse(text) {
   let safe = escapeHTML(text);
-  // ссылки
   safe = safe.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank">${url}</a>`);
-  // эмодзи
+  
   const emojiRegex = /\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu;
   safe = safe.replace(emojiRegex, emoji => {
     const code = Array.from(emoji).map(c => c.codePointAt(0).toString(16)).join("-");
@@ -250,16 +226,17 @@ function getTime() {
 // ================== reCAPTCHA ==================
 function renderRecaptcha() {
   if (typeof grecaptcha === "undefined") {
-    setTimeout(renderRecaptcha, 300);
+    setTimeout(renderRecaptcha, 400);
     return;
   }
   recaptchaWidgetId = grecaptcha.render("recaptcha", {
-    sitekey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI", // ← Замените на свою ключ в продакшене
+    sitekey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
     theme: "dark",
     callback: () => document.getElementById("generateBtn").disabled = false
   });
 }
 
+// ================== СОЗДАТЬ НОВЫЙ ТОКЕН ==================
 function generateNewToken() {
   const response = grecaptcha.getResponse(recaptchaWidgetId);
   if (!response) {
@@ -267,11 +244,11 @@ function generateNewToken() {
     return;
   }
 
-  let displayName = prompt("Введите имя пользователя:", "гость" + Math.floor(Math.random()*9999));
-  if (!displayName) return;
+  let displayName = prompt("Введите имя пользователя:", "гость" + Math.floor(Math.random() * 9999));
+  if (!displayName || displayName.trim() === "") return;
+
   displayName = displayName.trim().substring(0, 25);
 
-  // Генерация сильного токена
   const randomBytes = new Uint8Array(32);
   crypto.getRandomValues(randomBytes);
   const randomStr = btoa(String.fromCharCode(...randomBytes));
@@ -287,21 +264,22 @@ function generateNewToken() {
 
   document.getElementById("tokenDisplay").innerHTML = `
     ✅ <strong>Токен успешно создан!</strong><br>
-    <span style="color:#0f0;">${token}</span><br>
-    <small>Скопируйте и сохраните токен — он нужен для входа с других устройств.</small>
+    <span style="color:#0f0; word-break:break-all;">${token}</span><br><br>
+    <small>Скопируйте токен и сохраните его для входа с других устройств.</small>
   `;
 
   grecaptcha.reset(recaptchaWidgetId);
   document.getElementById("generateBtn").disabled = true;
 
   setTimeout(() => {
-    if (confirm("Токен создан! Войти в чат?")) {
+    if (confirm("Токен создан! Войти в чат сейчас?")) {
       hideLoginModal();
       initializeChat();
     }
-  }, 700);
+  }, 800);
 }
 
+// ================== ВХОД ПО ТОКЕНУ ==================
 function loginWithToken() {
   const inputToken = document.getElementById("tokenInput").value.trim();
   if (!inputToken) {
@@ -312,8 +290,7 @@ function loginWithToken() {
   try {
     const decoded = atob(inputToken);
     if (decoded.includes("|||")) {
-      const name = decoded.split("|||")[0];
-      username = name;
+      username = decoded.split("|||")[0];
       userToken = inputToken;
 
       localStorage.setItem("ct_token", userToken);
@@ -337,7 +314,6 @@ function hideLoginModal() {
 function initializeChat() {
   if (!username) return;
 
-  // Пользователи онлайн
   const userRef = db.ref("chattingterminalors/users").push();
   userRef.set({ name: username });
   userRef.onDisconnect().remove();
@@ -352,7 +328,6 @@ function initializeChat() {
     });
   });
 
-  // Сообщения
   db.ref("chattingterminalors/messages").limitToLast(100).on("child_added", snap => {
     const m = snap.val();
     const div = document.createElement("div");
@@ -366,9 +341,8 @@ function initializeChat() {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 
-  // Отправка сообщений
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter" && input.value.trim()) {
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && input.value.trim() !== "") {
       db.ref("chattingterminalors/messages").push({
         name: username,
         text: input.value,
@@ -385,6 +359,7 @@ window.onload = function() {
   username = localStorage.getItem("ct_user");
 
   if (userToken && username) {
+    hideLoginModal();
     initializeChat();
   } else {
     loginModal.style.display = "flex";
