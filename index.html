@@ -3,43 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cрфеештпеуктшьфдщкы</title>
+<title>Срфеештпеуктшьфдщкы</title>
 <link rel="icon" href="logo.ico?v=6">
 
 <style>
-body { margin:0; display:flex; height:100vh; background:#0f0f0f; color:#ddd; font-family:'Retro', Arial, sans-serif; }
-@font-face { font-family:'Retro'; src:url('retro.ttf') format('truetype'); font-display:swap; }
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  background: #0f0f0f;
+  color: #ddd;
+  font-family: 'Retro', Arial, sans-serif;
+}
+@font-face {
+  font-family: 'Retro';
+  src: url('retro.ttf') format('truetype');
+  font-display: swap;
+}
 
-#sidebar { width:220px; background:#1a1a1a; padding:10px; border-right:1px solid #300; }
-#sidebar h2 { font-size:14px; color:#ff4444; margin-bottom:10px; }
-.user { padding:5px; font-size:13px; color:#bbb; }
+#sidebar { width: 220px; background: #1a1a1a; padding: 10px; border-right: 1px solid #300; }
+#sidebar h2 { font-size: 14px; color: #ff4444; margin-bottom: 10px; }
+.user { padding: 5px; font-size: 13px; color: #bbb; }
 
-#chat { flex:1; display:flex; flex-direction:column; }
-#messages { flex:1; overflow-y:auto; padding:15px; }
-.msg { margin-bottom:12px; }
-.name { font-weight:bold; color:#ff5555; }
-.time { font-size:11px; color:#666; margin-left:5px; }
-#input { border:none; outline:none; padding:15px; background:#1a1a1a; color:#fff; border-top:1px solid #300; font-family:'Retro', Arial, sans-serif; font-size:15px; }
+#chat { flex: 1; display: flex; flex-direction: column; }
+#messages { flex: 1; overflow-y: auto; padding: 15px; }
+.msg { margin-bottom: 12px; }
+.name { font-weight: bold; color: #ff5555; }
+.time { font-size: 11px; color: #666; margin-left: 5px; }
+#input { border: none; outline: none; padding: 15px; background: #1a1a1a; color: #fff; border-top: 1px solid #300; font-family: 'Retro', Arial, sans-serif; font-size: 15px; }
 
-a { color:#4aa3ff; }
-.emoji { height:1.1em; vertical-align:middle; }
+a { color: #4aa3ff; }
+.emoji { height: 1.1em; vertical-align: middle; }
 
+/* MODAL SIMPLES */
 #loginModal {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:rgba(15,15,15,0.98); display:flex; align-items:center; justify-content:center; z-index:9999;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(15,15,15,0.98);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 .modal-content {
-  background:#1a1a1a; padding:30px; border:3px solid #ff4444; border-radius:8px;
-  text-align:center; max-width:500px; width:92%; box-shadow:0 0 40px rgba(255,68,68,0.6);
+  background: #1a1a1a;
+  padding: 30px;
+  border: 3px solid #ff4444;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
 }
-.modal-content h2 { color:#ff4444; margin-bottom:20px; }
+.modal-content h2 { color: #ff4444; margin-bottom: 20px; }
 .modal-content button {
-  width:100%; padding:14px; margin:10px 0; font-size:15px; border:none; cursor:pointer;
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
 }
-.modal-content button:hover { opacity:0.9; }
-#generateBtn { background:#ff4444; color:white; }
-#loginBtn { background:#0f0; color:black; font-weight:bold; }
-#tokenDisplay { margin:15px 0; padding:15px; background:#0a0a0a; border:1px dashed #0f0; color:#0f0; word-break:break-all; min-height:60px; }
+#generateBtn { background: #ff4444; color: white; }
+#loginBtn { background: #00cc00; color: black; font-weight: bold; }
+#tokenDisplay {
+  margin: 15px 0;
+  padding: 15px;
+  background: #0a0a0a;
+  border: 1px dashed #0f0;
+  color: #0f0;
+  word-break: break-all;
+  font-size: 13px;
+  min-height: 70px;
+}
 </style>
 </head>
 <body>
@@ -54,30 +90,28 @@ a { color:#4aa3ff; }
   <input id="input" placeholder="Напишите сообщение...">
 </div>
 
+<!-- MODAL -->
 <div id="loginModal">
   <div class="modal-content">
-    <h2>🔑 СИСТЕМА ТОКЕНОВ</h2>
-
-    <p><strong>Шаг 1: Создайте токен</strong></p>
-    <button id="generateBtn" onclick="generateNewToken()">1. Создать токен (reCAPTCHA)</button>
-    <div id="recaptcha" style="margin:20px 0;"></div>
-
-    <div id="tokenDisplay">Токен появится здесь после генерации...</div>
-
-    <p><strong>Шаг 2: Войдите в чат</strong></p>
-    <input type="text" id="tokenInput" placeholder="Токен появится здесь автоматически" readonly style="background:#222; color:#0f0; text-align:center;">
+    <h2>🔑 ТОКЕН СИСТЕМА</h2>
+    
+    <button id="generateBtn" onclick="generateToken()">1. Сгенерировать токен</button>
+    
+    <div id="tokenDisplay">Токен появится здесь...</div>
+    
+    <input type="text" id="tokenInput" placeholder="Токен будет здесь" readonly style="width:100%; padding:12px; background:#222; color:#0f0; text-align:center; margin:10px 0;">
+    
     <button id="loginBtn" onclick="loginWithToken()" disabled>2. Войти в чат</button>
-
+    
     <button onclick="hideLoginModal()" style="background:#444; margin-top:15px;">Закрыть</button>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <script>
-// Firebase
+// ================== FIREBASE ==================
 firebase.initializeApp({
   apiKey: "AIzaSyC4SGB78L-tDPtuKlQdGZnpFZzeMrJAyvQ",
   authDomain: "doxxing-e1f0d.firebaseapp.com",
@@ -89,20 +123,24 @@ firebase.initializeApp({
 const db = firebase.database();
 
 let username = null;
-let recaptchaWidgetId = null;
 
+const messagesDiv = document.getElementById("messages");
+const input = document.getElementById("input");
+const usersDiv = document.getElementById("users");
 const tokenDisplay = document.getElementById("tokenDisplay");
 const tokenInput = document.getElementById("tokenInput");
 const loginBtn = document.getElementById("loginBtn");
-const generateBtn = document.getElementById("generateBtn");
 
 // Funções básicas
 function escapeHTML(str) {
-  const p = document.createElement("p"); p.textContent = str; return p.innerHTML;
+  const p = document.createElement("p");
+  p.textContent = str;
+  return p.innerHTML;
 }
+
 function parse(text) {
   let safe = escapeHTML(text);
-  safe = safe.replace(/(https?:\/\/[^\s]+)/g, u => `<a href="${u}" target="_blank">${u}</a>`);
+  safe = safe.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank">${url}</a>`);
   const emojiRegex = /\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu;
   safe = safe.replace(emojiRegex, emoji => {
     const code = Array.from(emoji).map(c => c.codePointAt(0).toString(16)).join("-");
@@ -110,65 +148,43 @@ function parse(text) {
   });
   return safe;
 }
+
 function getTime() {
   const d = new Date();
   return d.getHours().toString().padStart(2,"0") + ":" + d.getMinutes().toString().padStart(2,"0");
 }
 
-// Render reCAPTCHA
-function renderRecaptcha() {
-  if (typeof grecaptcha === "undefined") {
-    setTimeout(renderRecaptcha, 400);
-    return;
-  }
-  recaptchaWidgetId = grecaptcha.render("recaptcha", {
-    sitekey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
-    theme: "dark",
-    callback: () => generateBtn.disabled = false
-  });
-}
-
-// GERAR TOKEN - CORRIGIDO
-function generateNewToken() {
-  const response = grecaptcha.getResponse(recaptchaWidgetId);
-  if (!response) {
-    alert("❌ Сначала отметьте галочку «Я не робот» (reCAPTCHA)!");
-    return;
-  }
-
-  // Só pede o nome DEPOIS de passar o captcha
+// ================== GERAR TOKEN ==================
+function generateToken() {
   let nick = prompt("Введите ваш никнейм:", "гость" + Math.floor(Math.random() * 9999));
   if (!nick || nick.trim() === "") return;
+
   nick = nick.trim().substring(0, 25);
 
-  // Gera token
-  const randomBytes = new Uint8Array(32);
-  crypto.getRandomValues(randomBytes);
-  const randomStr = btoa(String.fromCharCode(...randomBytes));
-  const token = btoa(nick + "|||" + randomStr);
+  // Gera token Base64 simples (nome + random)
+  const random = Math.random().toString(36).substring(2) + Date.now();
+  const tokenData = nick + "|||" + random;
+  const token = btoa(tokenData);
 
-  // Salva
+  // Salva no localStorage
   localStorage.setItem("ct_token", token);
   localStorage.setItem("ct_user", nick);
 
-  // Mostra
-  tokenDisplay.innerHTML = `✅ Токен успешно создан!<br><span style="color:#0f0;">${token}</span>`;
+  // Mostra na tela
+  tokenDisplay.innerHTML = `✅ Токен создан!<br><span style="color:#0f0;">${token}</span>`;
   tokenInput.value = token;
   loginBtn.disabled = false;
 
-  // Reset captcha
-  grecaptcha.reset(recaptchaWidgetId);
-  generateBtn.disabled = true;
-
-  alert("Токен создан и вставлен автоматически!\nТеперь нажмите кнопку «2. Войти в чат»");
+  alert("Токен успешно создан!\nНажмите «2. Войти в чат»");
 }
 
+// ================== ENTRAR NO CHAT ==================
 function loginWithToken() {
   const token = tokenInput.value.trim();
   const savedUser = localStorage.getItem("ct_user");
 
   if (!token || !savedUser) {
-    alert("❌ Сначала создайте токен!");
+    alert("Сначала сгенерируйте токен!");
     return;
   }
 
@@ -181,14 +197,15 @@ function hideLoginModal() {
   document.getElementById("loginModal").style.display = "none";
 }
 
+// ================== CHAT FUNCIONANDO ==================
 function initializeChat() {
   if (!username) return;
 
+  // Usuários online
   const userRef = db.ref("chattingterminalors/users").push();
   userRef.set({ name: username });
   userRef.onDisconnect().remove();
 
-  // Usuários online
   db.ref("chattingterminalors/users").on("value", snap => {
     usersDiv.innerHTML = "";
     snap.forEach(c => {
@@ -204,22 +221,30 @@ function initializeChat() {
     const m = snap.val();
     const div = document.createElement("div");
     div.className = "msg";
-    div.innerHTML = `<span class="name">${escapeHTML(m.name)}</span> <span class="time">${getTime()}</span><div class="text">${parse(m.text)}</div>`;
+    div.innerHTML = `
+      <span class="name">${escapeHTML(m.name)}</span>
+      <span class="time">${getTime()}</span>
+      <div class="text">${parse(m.text)}</div>
+    `;
     messagesDiv.appendChild(div);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 
-  // Enviar
+  // Enviar mensagem
   input.addEventListener("keydown", e => {
     if (e.key === "Enter" && input.value.trim()) {
-      db.ref("chattingterminalors/messages").push({ name: username, text: input.value, time: Date.now() });
+      db.ref("chattingterminalors/messages").push({
+        name: username,
+        text: input.value,
+        time: Date.now()
+      });
       input.value = "";
     }
   });
 }
 
-// Início
-window.onload = () => {
+// ================== INÍCIO ==================
+window.onload = function() {
   const savedToken = localStorage.getItem("ct_token");
   const savedUser = localStorage.getItem("ct_user");
 
@@ -229,8 +254,6 @@ window.onload = () => {
     initializeChat();
   } else {
     document.getElementById("loginModal").style.display = "flex";
-    renderRecaptcha();
-    generateBtn.disabled = true;   // só habilita depois do captcha
   }
 };
 </script>
